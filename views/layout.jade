@@ -1,0 +1,27 @@
+doctype 5
+html
+	head
+		title= title
+		link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css')
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js")
+		script(src='http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js')
+
+	body
+		div.navbar
+			div.navbar-inner
+				a.brand(href='/') Landlines
+				ul.nav
+					li
+						a(href="/report") Submit a report
+					li 
+						a(href="/dial-up") Get online!
+					li
+						a(href="/feeds") Feeds
+
+				ul.nav.pull-right
+					li
+						a(href="http://www.twitter.com/TelecomixSyria") Powered by TelecomixSyria
+
+		block content
+		

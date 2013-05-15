@@ -1,0 +1,49 @@
+extends layout
+
+block content
+	div#map-canvas
+	script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCkTAZdQJc1LmR3uOTrDrax1x_AJnS6fDw&sensor=false')
+	script(type='text/javascript')
+		var regions = !{JSON.stringify(regions)};
+		function initialize(){
+			var options = { center: new google.maps.LatLng(35,38), zoom: 7, mapTypeId: google.maps.MapTypeId.HYBRID};
+			var map = new google.maps.Map(document.getElementById('map-canvas'), options);
+			setMarkers(map, regions);
+		}
+		function setMarkers(map, locations) {
+		
+			for (var i = 0; i < locations.length; i++) {
+				var region = locations[i];
+
+				var image = {
+					url: 'images/'+ region[4],	
+					origin: new google.maps.Point(0,0),
+					anchor: new google.maps.Point(20, 60),
+					animation: google.maps.Animation.DROP
+				};
+				
+				var myLatLng = new google.maps.LatLng(region[1], region[2]);
+				var urlStringForReport = "http://" + window.location.host +"/reports/"+region[5]
+				var infowindow = new google.maps.InfoWindow({
+					content: region[3].description + "<a href='"+ urlStringForReport + "'"+">"+ " Read full report"+"</a>"
+				});
+				var marker = new google.maps.Marker({
+					position: myLatLng,
+					map: map,
+					icon: image,
+					title: region[0],
+					zIndex: i,
+					infoWindow: infowindow
+				});
+				marker.setAnimation(google.maps.Animation.DROP);
+				listenMarker(marker, map);
+			}
+		}
+
+		function listenMarker (marker, map){
+			google.maps.event.addListener(marker, 'click', function() {
+				marker.infoWindow.open(map, marker);
+			});
+		}
+		google.maps.event.addDomListener(window, 'load', initialize);
+	

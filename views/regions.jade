@@ -1,0 +1,86 @@
+extends layout
+
+block content
+
+	.container
+		div.hero-unit
+			h1 #{title}
+
+		h2 Current Registered Regions
+
+		table.table-striped.table-bordered
+			thead
+				tr
+					th 
+						h3 Name
+					th 
+						h3 Latitude
+					th 
+						h3 Longitude
+					th 
+						h3 Action
+			tbody
+			each region in regions
+				tr
+					td 
+						h5 #{region["name"]}
+					td 
+						h5 #{region["longitude"]}
+					td 
+						h5 #{region["latitude"]}
+					td 
+						h5 Delete
+
+
+		p The system doesn't manage to edit regions yet. 
+			a(href="mailto:frederic.jacobs@mac.com") For this ask agent s3rv4i
+
+		h2 Add Region
+
+		p We use regions to file reports. Please make sure that when you create the region, you center it on the closest "big-city".
+	
+		form(action="/admin/regions/submit", method="post")
+			h3 Lookup Coordinates
+
+			input#geocomplete(type="text", placeholder="Type in an address", size=100);
+			.input-append
+				input#find.btn(type="button", value="find")			
+
+			input(type="text", value="", name="lat", readonly, required);
+			input(type="text", value="", name="lng",readonly, required);
+			p
+				h3 Name that region
+				input(type="text", placeholder="Name of the place", name="name", required)
+
+			input.btn(type="submit")
+		
+		.map_canvas
+
+		script(src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true")
+		script(src="/javascripts/jquery.geocomplete.js")
+		script(src="/javascripts/logger.js")	
+
+		script
+			$(function(){ 
+			var options = {
+				map: ".map_canvas",
+				details: "form",
+				location: [35,38],
+				mapOptions: {
+					zoom: 6
+				}
+			};
+			$("#geocomplete").geocomplete(options)
+			.bind("geocode:result", function(event, result){
+				$.log("Result: " + result.formatted_address);
+			})
+			.bind("geocode:error", function(event, status){
+				$.log("ERROR: " + status);
+			})
+			.bind("geocode:multiple", function(event, results){
+				$.log("Multiple: " + results.length + " results found");
+			});
+			$("#find").click(function(){
+				$("#geocomplete").trigger("geocode");
+			});
+			});

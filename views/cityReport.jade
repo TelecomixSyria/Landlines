@@ -1,0 +1,44 @@
+extends layout
+
+block content
+
+	.container
+		div.hero-unit
+			h1 #{title}
+
+		h2 Table of Reports
+
+		table.table-striped.table-bordered
+			thead
+				tr
+					th 
+						h4 Status
+					
+					th
+						h4 Time
+
+					th 
+						h4 What?
+
+					th
+						h4 Number
+
+					th 
+						h4 Comments
+
+			tbody
+
+			each report in reports
+				tr
+					td 
+						img(src="/images/"+report.statusIcon)
+					td 
+						p #{report.date}
+					td 
+						p #{report.statusDescription}
+					td 
+						p #{report.number}
+					td 
+						p #{report.comments}
+
+		h4 Report pages are still a work in progress.

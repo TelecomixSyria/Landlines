@@ -1,0 +1,29 @@
+extends layout
+
+block content
+
+	.container
+		
+		div.hero-unit
+		
+			h1 Submit a new report
+
+		form#callForm(action="/reports/submit", method="post")
+			h3 I did call    
+				select.span2(form="callForm", name="region")
+					each region in regions
+						option(value= region._id) #{region.name}
+				|    and  
+				
+				select.span5(form="callForm", name="status")
+					each status in statuses
+						option(value=status.indexValue) #{status.name}
+			p If the number is a public number:
+				input(type="tel", placeholder="Phone number", name="phonenumber")
+
+			h4 If you have any comment to make regarding the call.
+
+			textarea.span6(rows="3", form="callForm", name="comment")
+
+			p
+				input.button.btn(type="submit", value="Submit") Submit
